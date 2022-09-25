@@ -9,7 +9,7 @@ public class Diccionario {
 	public static void main(String[] args) {
 		
 		HashMap <String, String> diccionario = new HashMap <String, String>();
-		HashMap <String, String> diccionarioCambio = new HashMap <String, String>();
+		
 		diccionario.put("alcalde", "mayor");
 		diccionario.put("calcetines", "socks");
 		diccionario.put("grapas", "staples");
@@ -34,7 +34,6 @@ public class Diccionario {
 		Scanner sc = new Scanner (System.in);
 		
 		boolean salir = false;
-		String idioma = "ES";
 		
 		while (!salir) {
 			
@@ -49,101 +48,127 @@ public class Diccionario {
 			
 			
 			if (opcion == 1) {
-				System.out.println("¿palabra a añadir?");
-				String clave = sc.next();
-				System.out.println("¿traduccion?");
-				String trad = sc.next();
-				diccionario.put(clave, trad);
-				System.out.println("La palabra "+clave+" y su traduccion "+trad+" ha sido añadido correctamente");
+				addPalabra(diccionario);
 			}
 			
 			else if (opcion==2) {
-				String opcion2 = "";
-				do {
-					Set<String> prueba = diccionario.keySet();
-					System.out.println("Elige la palabra que quieras modificar de las siguientes "+prueba);
-					opcion2 = sc.next();
-					
-				} while(!diccionario.containsKey(opcion2));
-				String traduc2 = diccionario.get(opcion2);
-				System.out.println("La traduccion de "+opcion2+" es "+traduc2);
-				System.out.println("Introduce la nueva traduccion de "+opcion2);
-				String traducNuevo = sc.next();
-				diccionario.replace(opcion2, traduc2, traducNuevo);
-				System.out.println("Ha sido modificado correctamente");
+				modificarPalabra(diccionario);
 				
 			}
 			
 			else if (opcion == 3) {
-				String opcion2 = "";
-				do {
-					Set<String> prueba = diccionario.keySet();
-					System.out.println("Elige la palabra que quieras eliminar de las siguientes "+prueba);
-					opcion2 = sc.next();
-					
-				} while(!diccionario.containsKey(opcion2));
-				diccionario.remove(opcion2);
-				System.out.println("La palabra "+opcion2+" ha sido eliminada");
-				
+
+				borrarPalabra(diccionario);
 			}
 			
 			else if (opcion == 4) {
-				System.out.println("introduce la palabra que quieres traducir");
-				String palabra = sc.next();
-				String traduccion = diccionario.get(palabra);
-				System.out.println("La traduccion de "+ palabra + " es "+ traduccion);
+				traducirPalabra(diccionario);
 			}
 			
 			else if (opcion == 5) {
-				System.out.println("introduce la palabra para ver sugerencias y su traduccion");
-				String palabra = sc.next();
-				String comparador = "";
-				for (String key : diccionario.keySet()) {
-					for (int i = 0; i < key.length()-(palabra.length());i++) {
-						String guardaKey = key.substring(i, (i+palabra.length()));
-						if (guardaKey.equals(palabra) && (!key.equals(comparador))) {
-							String traduc3 = diccionario.get(key);
-							System.out.println(key+" - "+traduc3);
-							comparador = key;
-						}
-					}
-					
-				}
+				sugerirPalabra(diccionario);
 				
 			}
 			
 			
 			else if (opcion == 6) {
-				
-				System.out.println("El idioma actual del diccionario es "+idioma);
-				System.out.println("Quieres cambiarlo?si/no");
-				String cambiarIdioma = sc.next();
-				
-				if (cambiarIdioma.equalsIgnoreCase("si") && idioma.equalsIgnoreCase("ES")) {
-					for (String key : diccionario.keySet()) {
-						diccionarioCambio.put(diccionario.get(key), key);
-					}
-					diccionario = diccionarioCambio;
-					diccionarioCambio.clear();
-					if (idioma.equalsIgnoreCase("ES")) {
-						System.err.println("El diccionario ahora está en ingles-español");
-						idioma = "EN";
-					}
-					else {
-						System.err.println("El diccionario ahora está en español-ingles");
-						idioma = "ES";
-					}
-				}
-				
-				
+				diccionario = cambiarDiccionario(diccionario);
+
 			}
 			
 		}
 		
+	}
+	
+	public static void addPalabra (HashMap <String, String> diccionario2) {
+		Scanner sc = new Scanner (System.in);
+		System.out.println("¿palabra a añadir?");
+		String clave = sc.next();
+		System.out.println("¿traduccion?");
+		String trad = sc.next();
+		diccionario2.put(clave, trad);
+		System.out.println("La palabra "+clave+" y su traduccion "+trad+" ha sido añadido correctamente");	
 		
+	}
+	
+	public static void modificarPalabra (HashMap <String, String> diccionario2) {
+		Scanner sc = new Scanner (System.in);
+		String opcion2 = "";
+		do {
+			Set<String> prueba = diccionario2.keySet();
+			System.out.println("Elige la palabra que quieras modificar de las siguientes "+prueba);
+			opcion2 = sc.next();
+			
+		} while(!diccionario2.containsKey(opcion2));
+		String traduc2 = diccionario2.get(opcion2);
+		System.out.println("La traduccion de "+opcion2+" es "+traduc2);
+		System.out.println("Introduce la nueva traduccion de "+opcion2);
+		String traducNuevo = sc.next();
+		diccionario2.replace(opcion2, traduc2, traducNuevo);
+		System.out.println("Ha sido modificado correctamente");
 		
-		
-
 	}
 
+	public static void borrarPalabra (HashMap <String, String> diccionario2) {
+		Scanner sc = new Scanner (System.in);
+		String opcion2 = "";
+		do {
+			Set<String> prueba = diccionario2.keySet();
+			System.out.println("Elige la palabra que quieras eliminar de las siguientes "+prueba);
+			opcion2 = sc.next();
+			
+		} while(!diccionario2.containsKey(opcion2));
+		diccionario2.remove(opcion2);
+		System.out.println("La palabra "+opcion2+" ha sido eliminada");
+		
+	}
+	
+	public static void traducirPalabra (HashMap <String, String> diccionario2) {
+		Scanner sc = new Scanner (System.in);
+		System.out.println("introduce la palabra que quieres traducir");
+		String palabra = sc.next();
+		String traduccion = diccionario2.get(palabra);
+		System.out.println("La traduccion de "+ palabra + " es "+ traduccion);
+		
+	}
+	
+	public static void sugerirPalabra (HashMap <String, String> diccionario2) {
+		Scanner sc = new Scanner (System.in);
+		System.out.println("introduce la palabra para ver sugerencias y su traduccion");
+		String palabra = sc.next();
+		String comparador = "";
+		for (String key : diccionario2.keySet()) {
+			for (int i = 0; i < key.length()-(palabra.length());i++) {
+				String guardaKey = key.substring(i, (i+palabra.length()));
+				if (guardaKey.equals(palabra) && (!key.equals(comparador))) {
+					String traduc3 = diccionario2.get(key);
+					System.out.println(key+" - "+traduc3);
+					comparador = key;
+				}
+			}
+			
+		}
+	}
+	public static HashMap<String,String> cambiarDiccionario (HashMap <String, String> diccionario2){
+		Scanner sc = new Scanner (System.in);
+
+		System.out.println("Quieres cambiar el diccionario?si/no");
+		String cambiarIdioma = sc.next();
+		
+		HashMap <String, String> diccionarioCambio = new HashMap <String, String>();
+		if (cambiarIdioma.equalsIgnoreCase("si")) {
+			
+			for (String key : diccionario2.keySet()) {
+				diccionarioCambio.put(diccionario2.get(key), key);
+			}
+			diccionario2 = diccionarioCambio;
+			
+		}
+		
+		return diccionarioCambio;
+	}
+
+	
+	
+	
 }
